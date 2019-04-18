@@ -30,28 +30,7 @@ class Task():
         """Uses current pose of sim to return reward."""
         #reward = 1.-.3*(abs(self.sim.pose[:3] - self.target_pos)).sum()
         #return reward
-    
-        '''
-        reward = -min(abs(self.sim.pose[2] - self.target_pos[2]), 1.0)
-        if self.sim.pose[2] >= self.target_pos[2]:  
-            reward += 10.0
-        if self.sim.time > self.sim.runtime:            # agent run out of time
-            reward -= 5.0
-           
-        reward = np.tanh(reward)
-        #'''
-        #'''
-        reward = 0
-        factor = 3
-        dis = self.sim.pose[2] - self.target_pos[2]
-        
-        if(dis >= 0):                 # agent above or equal the target
-            reward += dis * factor
-        else:                         # agent below the target   
-            reward += (1/np.abs(dis)) * factor
-        # to make it in a range [-1,1]    
-        reward = np.tanh(reward)        
-        #'''        
+        reward = np.tanh(1 - 0.0005*(abs(self.sim.pose[:3] - self.target_pos)).sum())
         return reward
 
     def step(self, rotor_speeds):
