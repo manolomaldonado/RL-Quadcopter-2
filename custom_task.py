@@ -1,5 +1,6 @@
 import numpy as np
 from physics_sim import PhysicsSim
+from scipy.spatial import distance
 
 class Task():
     """Task (environment) that defines the goal and provides feedback to the agent."""
@@ -28,8 +29,7 @@ class Task():
 
     def get_reward(self):
         """Uses current pose of sim to return reward."""
-        reward = 1.-.3*(abs(self.sim.pose[:3] - self.target_pos)).sum()
-        return reward
+        return np.tanh(1 - 0.0005*(abs(self.sim.pose[:3] - self.target_pos)).sum())
 
     def step(self, rotor_speeds):
         """Uses action to obtain next state, reward, done."""
