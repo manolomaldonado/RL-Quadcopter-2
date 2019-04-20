@@ -29,8 +29,10 @@ class Task():
 
     def get_reward(self):
         """Uses current pose of sim to return reward."""
-        #dst = distance.euclidean(self.sim.pose[:3], self.target_pos)
-        return np.tanh( 1 - 0.0005*( abs(self.sim.pose[:3] - self.target_pos) ).sum() )
+        dst = distance.euclidean(self.sim.pose[:3], self.target_pos)
+        reward = 10.
+        penalty = 0.3*dst 
+        return reward - penalty
 
     def step(self, rotor_speeds):
         """Uses action to obtain next state, reward, done."""
